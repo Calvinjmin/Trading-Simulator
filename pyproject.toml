@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "trading-simulator"
+version = "0.1.0"
+description = ""
+authors = ["Calvin Min <32576363+Calvinjmin@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "^2.2.3"
+numpy = "^2.1.1"
+matplotlib = "^3.9.2"
+backtrader = "^1.9.78.123"
+yfinance = "^0.2.43"
+scikit-learn = "^1.5.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
