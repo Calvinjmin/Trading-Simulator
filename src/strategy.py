@@ -106,7 +106,7 @@ class MovingAverageCrossover:
         print(f"Final Portfolio Value: {cerebro.broker.getvalue()}")
 
 
-class MeanReversionStrategy:
+class MeanReversion:
     def __init__(self, data, window, num_std):
         self.data = data
         self.cash = 1000
