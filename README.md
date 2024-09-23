@@ -6,7 +6,8 @@ The Trading Simulator is a Python-based application that implements a moving ave
 
 ## Strategies
 
-- **Moving Average Crossover Strategy**: Utilizes short and long moving averages to generate trading signals.
+- **Moving Average Crossover**: Utilizes short and long moving averages to generate trading signals.
+- **Mean Reversion**: Uses rolling mean and standard deviation to detect overbought or oversold conditions, generating buy and sell signals when prices deviate from their mean.
 
 ## Features
 
