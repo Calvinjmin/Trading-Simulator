@@ -210,3 +210,67 @@ class MeanReversion:
         cerebro.run()
         print(f"Mean Reversion Strategy - Initial Cash: {self.cash}")
         print(f"Final Portfolio Value: {cerebro.broker.getvalue()}")
+
+class PairTrading:
+    """
+    This strategy generally works only if there is a historical trend between Stock A and Stock B
+    """
+
+    # Grab Historical Data for Two Stocks & Calculate their Associated Trends
+    def __init__(self, data, a_data, b_data, window: int):
+        self.data = data
+        self.a_data = a_data
+        self.b_data = b_data
+        self.window = window
+
+    def create_signals(self):
+        # Given a window find the average of the two stock's data and calculate mean for that window
+
+        # Generate Rolling Mean of the two historical stocks
+        self.a_data["rolling_mean"] = (
+            self.a_data["Close"].rolling(window=self.window).mean()
+        )
+        self.b_data["rolling_mean"] = (
+            self.b_data["Close"].rolling(window=self.window).mean()
+        )
+        self.data["rolling_mean"] = np.mean(
+            self.a_data["rolling_mean"], self.b_data["rolling_mean"]
+        )
+
+        # Generate signals
+        self.a_data["signal"] = 0.0
+        self.b_data["signal"] = 0.0
+
+        # Buy Signal
+        self.a_data["signal"][self.window] = np.where(
+            self.a_data["Close"][self.window]
+            < self.data["rolling_mean"][self.window :],
+            1.0,
+            0.0,
+        )
+
+        self.b_data["signal"][self.window] = np.where(
+            self.b_data["Close"][self.window]
+            < self.data["rolling_mean"][self.window :],
+            1.0,
+            0.0,
+        )
+
+        # Sell Signals
+        self.a_data["signal"][self.window] = np.where(
+            self.a_data["Close"][self.window]
+            > self.data["rolling_mean"][self.window :],
+            -1.0,
+            self.a_data["signal"][self.window :],
+        )
+
+        self.b_data["signal"][self.window] = np.where(
+            self.b_data["Close"][self.window]
+            > self.data["rolling_mean"][self.window :],
+            -1.0,
+            self.b_data["signal"][self.window :],
+        )
+
+        # Create Position Diffs
+        self.a_data["positions"] = self.a_data["signal"].diff()
+        self.b_data["positions"] = self.b_data["signal"].diff()
