@@ -211,6 +211,7 @@ class MeanReversion:
         print(f"Mean Reversion Strategy - Initial Cash: {self.cash}")
         print(f"Final Portfolio Value: {cerebro.broker.getvalue()}")
 
+
 class PairTrading:
     """
     This strategy generally works only if there is a historical trend between Stock A and Stock B
